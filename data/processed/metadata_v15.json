@@ -1,0 +1,333 @@
+{
+  "num_train_samples": 442905,
+  "num_val_samples": 147635,
+  "num_test_samples": 506691,
+  "target_column": "isFraud",
+  "categorical_columns": [
+    "ProductCD",
+    "card1",
+    "card2",
+    "card3",
+    "card4",
+    "card5",
+    "card6",
+    "addr1",
+    "addr2",
+    "P_emaildomain",
+    "R_emaildomain",
+    "M1",
+    "M2",
+    "M3",
+    "M4",
+    "M5",
+    "M6",
+    "M7",
+    "M8",
+    "M9",
+    "DeviceType",
+    "DeviceInfo",
+    "id_12",
+    "id_13",
+    "id_14",
+    "id_15",
+    "id_16",
+    "id_17",
+    "id_18",
+    "id_19",
+    "id_20",
+    "id_21",
+    "id_22",
+    "id_23",
+    "id_24",
+    "id_25",
+    "id_26",
+    "id_27",
+    "id_28",
+    "id_29",
+    "id_30",
+    "id_31",
+    "id_32",
+    "id_33",
+    "id_34",
+    "id_35",
+    "id_36",
+    "id_37",
+    "id_38"
+  ],
+  "numerical_columns": [
+    "TransactionAmt",
+    "C1",
+    "C2",
+    "C3",
+    "C4",
+    "C5",
+    "C6",
+    "C7",
+    "C8",
+    "C9",
+    "C10",
+    "C11",
+    "C12",
+    "C13",
+    "C14",
+    "D1",
+    "D2",
+    "D3",
+    "D4",
+    "D5",
+    "D6",
+    "D7",
+    "D8",
+    "D9",
+    "D10",
+    "D11",
+    "D12",
+    "D13",
+    "D14",
+    "D15",
+    "dist1",
+    "dist2",
+    "id_01",
+    "id_02",
+    "id_03",
+    "id_04",
+    "id_05",
+    "id_06",
+    "id_07",
+    "id_08",
+    "id_09",
+    "id_10",
+    "id_11",
+    "V10",
+    "V34",
+    "V52",
+    "V74",
+    "V94",
+    "V102",
+    "V140",
+    "V150",
+    "V199",
+    "V201",
+    "V258",
+    "V259",
+    "V303",
+    "V282",
+    "V324"
+  ],
+  "embedding_info": {
+    "ProductCD": {
+      "num_classes": 7,
+      "embedding_dim": 3
+    },
+    "card1": {
+      "num_classes": 12487,
+      "embedding_dim": 50
+    },
+    "card2": {
+      "num_classes": 502,
+      "embedding_dim": 13
+    },
+    "card3": {
+      "num_classes": 108,
+      "embedding_dim": 7
+    },
+    "card4": {
+      "num_classes": 6,
+      "embedding_dim": 3
+    },
+    "card5": {
+      "num_classes": 113,
+      "embedding_dim": 7
+    },
+    "card6": {
+      "num_classes": 6,
+      "embedding_dim": 3
+    },
+    "addr1": {
+      "num_classes": 323,
+      "embedding_dim": 10
+    },
+    "addr2": {
+      "num_classes": 71,
+      "embedding_dim": 6
+    },
+    "P_emaildomain": {
+      "num_classes": 61,
+      "embedding_dim": 5
+    },
+    "R_emaildomain": {
+      "num_classes": 62,
+      "embedding_dim": 5
+    },
+    "M1": {
+      "num_classes": 4,
+      "embedding_dim": 3
+    },
+    "M2": {
+      "num_classes": 4,
+      "embedding_dim": 3
+    },
+    "M3": {
+      "num_classes": 4,
+      "embedding_dim": 3
+    },
+    "M4": {
+      "num_classes": 5,
+      "embedding_dim": 3
+    },
+    "M5": {
+      "num_classes": 4,
+      "embedding_dim": 3
+    },
+    "M6": {
+      "num_classes": 4,
+      "embedding_dim": 3
+    },
+    "M7": {
+      "num_classes": 4,
+      "embedding_dim": 3
+    },
+    "M8": {
+      "num_classes": 4,
+      "embedding_dim": 3
+    },
+    "M9": {
+      "num_classes": 4,
+      "embedding_dim": 3
+    },
+    "DeviceType": {
+      "num_classes": 4,
+      "embedding_dim": 3
+    },
+    "DeviceInfo": {
+      "num_classes": 1585,
+      "embedding_dim": 21
+    },
+    "id_12": {
+      "num_classes": 4,
+      "embedding_dim": 3
+    },
+    "id_13": {
+      "num_classes": 54,
+      "embedding_dim": 5
+    },
+    "id_14": {
+      "num_classes": 27,
+      "embedding_dim": 4
+    },
+    "id_15": {
+      "num_classes": 5,
+      "embedding_dim": 3
+    },
+    "id_16": {
+      "num_classes": 4,
+      "embedding_dim": 3
+    },
+    "id_17": {
+      "num_classes": 103,
+      "embedding_dim": 7
+    },
+    "id_18": {
+      "num_classes": 20,
+      "embedding_dim": 4
+    },
+    "id_19": {
+      "num_classes": 507,
+      "embedding_dim": 13
+    },
+    "id_20": {
+      "num_classes": 373,
+      "embedding_dim": 11
+    },
+    "id_21": {
+      "num_classes": 437,
+      "embedding_dim": 12
+    },
+    "id_22": {
+      "num_classes": 25,
+      "embedding_dim": 4
+    },
+    "id_23": {
+      "num_classes": 5,
+      "embedding_dim": 3
+    },
+    "id_24": {
+      "num_classes": 12,
+      "embedding_dim": 3
+    },
+    "id_25": {
+      "num_classes": 313,
+      "embedding_dim": 10
+    },
+    "id_26": {
+      "num_classes": 89,
+      "embedding_dim": 6
+    },
+    "id_27": {
+      "num_classes": 4,
+      "embedding_dim": 3
+    },
+    "id_28": {
+      "num_classes": 4,
+      "embedding_dim": 3
+    },
+    "id_29": {
+      "num_classes": 4,
+      "embedding_dim": 3
+    },
+    "id_30": {
+      "num_classes": 74,
+      "embedding_dim": 6
+    },
+    "id_31": {
+      "num_classes": 112,
+      "embedding_dim": 7
+    },
+    "id_32": {
+      "num_classes": 6,
+      "embedding_dim": 3
+    },
+    "id_33": {
+      "num_classes": 200,
+      "embedding_dim": 9
+    },
+    "id_34": {
+      "num_classes": 6,
+      "embedding_dim": 3
+    },
+    "id_35": {
+      "num_classes": 4,
+      "embedding_dim": 3
+    },
+    "id_36": {
+      "num_classes": 4,
+      "embedding_dim": 3
+    },
+    "id_37": {
+      "num_classes": 4,
+      "embedding_dim": 3
+    },
+    "id_38": {
+      "num_classes": 4,
+      "embedding_dim": 3
+    }
+  },
+  "v_representation": "15_cluster_representatives",
+  "v_representatives": [
+    "V10",
+    "V34",
+    "V52",
+    "V74",
+    "V94",
+    "V102",
+    "V140",
+    "V150",
+    "V199",
+    "V201",
+    "V258",
+    "V259",
+    "V303",
+    "V282",
+    "V324"
+  ]
+}

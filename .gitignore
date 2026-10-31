@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Raw Kaggle large datasets (>100MB GitHub limit)
+data/raw/ieee-fraud-detection/*.csv
+
+# Temporary font & cache directories
+outputs/.matplotlib/
+.matplotlib/
+
+# IDE
+.vscode/
+.idea/
