@@ -105,6 +105,12 @@ This project delivers an end-to-end, leakage-free empirical investigation and de
 
 ## ⚙️ Quickstart & Reproduction
 
+> [!IMPORTANT]
+> **Lưu ý về Dữ liệu (Dataset Notice):**
+> * Repository **ĐÃ BAO GỒM TOÀN BỘ dữ liệu Parquet đã tiền xử lý** trong thư mục `data/processed/` cùng các mô hình scaler, encoders và đồ thị chẩn đoán trong `outputs/`!
+> * Bạn **KHÔNG CẦN tải lại 1.3 GB file CSV thô** nếu chỉ muốn huấn luyện mô hình — có thể chạy ngay: `python src/run_experiments.py`.
+> * Nếu bạn muốn chạy lại từ đầu quy trình EDA (`eda/04_data_mining_contrast.py`) hoặc tiền xử lý (`src/preprocess.py`), hãy tải dữ liệu từ [Kaggle IEEE-CIS Fraud Detection](https://www.kaggle.com/c/ieee-fraud-detection/data) và giải nén 4 file CSV vào thư mục: `data/raw/ieee-fraud-detection/`.
+
 ### 1. Environment Setup
 ```bash
 # Clone the repository

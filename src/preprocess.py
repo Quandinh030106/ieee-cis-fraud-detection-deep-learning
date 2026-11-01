@@ -55,6 +55,19 @@ def load_v_cluster_info():
 
 def load_raw_train():
     print("[1/6] Loading raw train transaction & identity datasets...")
+    if not TRAIN_TRANS_PATH.exists() or not TRAIN_IDENT_PATH.exists():
+        raise FileNotFoundError(
+            f"\n\n[!] KHÔNG TÌM THẤY DỮ LIỆU THÔ TẠI: {TRAIN_TRANS_PATH}\n"
+            "--------------------------------------------------------------------------------\n"
+            "NGUYÊN NHÂN:\n"
+            "Các file CSV thô nặng >600MB của Kaggle không nằm trên GitHub (vượt giới hạn 100MB).\n"
+            "HƯỚNG DẪN:\n"
+            "1. Tải dataset từ Kaggle: https://www.kaggle.com/c/ieee-fraud-detection/data\n"
+            f"2. Giải nén vào thư mục: {TRAIN_TRANS_PATH.parent}\n"
+            "Lưu ý: Dữ liệu Parquet đã được tiền xử lý sẵn trong 'data/processed/'!\n"
+            "Bạn có thể chạy thẳng 'python src/run_experiments.py' mà không cần chạy lại bước này.\n"
+            "--------------------------------------------------------------------------------\n"
+        )
     df_trans = pd.read_csv(TRAIN_TRANS_PATH)
     df_ident = pd.read_csv(TRAIN_IDENT_PATH)
     df = pd.merge(df_trans, df_ident, on=ID_COL, how='left')

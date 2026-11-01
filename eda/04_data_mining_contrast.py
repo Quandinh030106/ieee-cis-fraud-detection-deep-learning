@@ -44,6 +44,25 @@ from src.config import (
 
 def load_dataset():
     print("[1/5] Loading train transaction and identity data...", flush=True)
+    if not TRAIN_TRANS_PATH.exists() or not TRAIN_IDENT_PATH.exists():
+        raise FileNotFoundError(
+            f"\n\n[!] KHÔNG TÌM THẤY DỮ LIỆU THÔ TẠI: {TRAIN_TRANS_PATH}\n"
+            "--------------------------------------------------------------------------------\n"
+            "NGUYÊN NHÂN:\n"
+            "Các file CSV thô của Kaggle (train_transaction.csv nặng ~683MB) vượt quá giới hạn\n"
+            "100MB của GitHub nên đã được đưa vào .gitignore và KHÔNG có sẵn khi clone repo.\n\n"
+            "CÁCH KHẮC PHỤC:\n"
+            "1. Tải bộ dữ liệu từ Kaggle IEEE-CIS Fraud Detection:\n"
+            "   https://www.kaggle.com/c/ieee-fraud-detection/data\n"
+            "2. Giải nén các file CSV vào đúng thư mục:\n"
+            f"   {TRAIN_TRANS_PATH.parent}\n\n"
+            "LƯU Ý QUAN TRỌNG:\n"
+            "Toàn bộ kết quả thống kê và đồ thị chẩn đoán ĐÃ CÓ SẴN trong thư mục 'outputs/'!\n"
+            "Dữ liệu đã qua tiền xử lý cũng ĐÃ CÓ SẴN trong thư mục 'data/processed/' dạng Parquet!\n"
+            "Nếu bạn muốn huấn luyện mô hình, hãy chạy thẳng:\n"
+            "   python src/run_experiments.py\n"
+            "--------------------------------------------------------------------------------\n"
+        )
     df_trans = pd.read_csv(TRAIN_TRANS_PATH)
     df_ident = pd.read_csv(TRAIN_IDENT_PATH)
     df = pd.merge(df_trans, df_ident, on='TransactionID', how='left')
