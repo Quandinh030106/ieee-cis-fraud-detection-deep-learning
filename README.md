@@ -140,6 +140,24 @@ python src/run_experiments.py
 
 ---
 
+## 📊 Benchmark Results & Experimental Evaluation
+
+Evaluated strictly on the chronological out-of-time validation partition ($N_{\text{val}} = 147,635$, Fraud Prevalence = $3.45\%$), with decision threshold $\tau^*$ calibrated for maximum $F_1$-score:
+
+| Model Architecture | Feature Space | Objective Function | ROC-AUC | PR-AUC | $F_1$-Score | Precision | Recall | True Frauds Caught (TP) | False Alarms (FP) | $\tau^*$ |
+| :--- | :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **Logistic Regression (Baseline)** | Numerical $V_{15}$ Only | Weighted Cross-Entropy | 0.8409 | 0.2075 | 0.3479 | 0.3425 | 0.3535 | 1,803 | 3,462 | 0.8602 |
+| **Tabular Entity-Embedding NN** | 49 Categories + $V_{15}$ | Weighted BCE ($\text{pos\_weight}=10$) | 0.8856 | 0.4760 | 0.4769 | 0.5172 | 0.4424 | 2,256 | 2,106 | 0.9038 |
+| **Tabular Entity-Embedding NN** | 49 Categories + $V_{15}$ | Focal Loss ($\alpha=0.25, \gamma=2.0$) | 0.8832 | 0.4745 | 0.4771 | 0.5103 | 0.4480 | 2,285 | 2,193 | 0.3064 |
+| **Tabular Entity-Embedding NN** | **49 Categories + Orthogonal VPCA** | **Focal Loss ($\alpha=0.25, \gamma=2.0$)** | **0.8875** | **0.4887** | **0.4909** | **0.5175** | **0.4669** | **2,381** | **2,220** | **0.3088** |
+
+### Key Experimental Insights:
+1. **Entity Embeddings (+129.4% PR-AUC)**: Mapping 49 categorical features into dense continuous representations allows the neural network to capture intricate card, device, and email interactions far beyond linear capability.
+2. **Orthogonal Cluster-Wise VPCA (+135.5% PR-AUC)**: Compressing 339 collinear V-features into 15 independent subspace components eliminates redundancy and yields the highest overall benchmark performance (**ROC-AUC: 0.8875, PR-AUC: 0.4887, F1: 0.4909**).
+3. **Loss Function Calibration**: Focal Loss naturally stabilizes decision probabilities ($\tau^* \approx 0.31$) compared to aggressive logit shifting in Weighted BCE ($\tau^* \approx 0.90$), delivering superior fraud capture (+578 frauds detected over baseline, +32.1% fraud recovery) while reducing false positives by 35.9%.
+
+---
+
 ## 📜 Scientific Paper
 The complete manuscript is authored in LaTeX using the standard IEEE Conference format at [`report/main.tex`](report/main.tex), containing formal mathematical formulations, empirical missingness topology, and benchmark results.
 

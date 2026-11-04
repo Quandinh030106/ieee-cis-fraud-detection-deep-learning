@@ -1,6 +1,13 @@
 import sys
 import os
 from pathlib import Path
+
+# Ensure unbuffered output and writable matplotlib cache
+sys.stdout.reconfigure(line_buffering=True)
+mpl_dir = Path(__file__).resolve().parent.parent / "outputs" / ".matplotlib"
+mpl_dir.mkdir(parents=True, exist_ok=True)
+os.environ["MPLCONFIGDIR"] = str(mpl_dir)
+
 import json
 import numpy as np
 import pandas as pd
@@ -81,14 +88,23 @@ def run_all_benchmarks():
     metrics_lr = evaluate_predictions(
         y_val, lr_probs, save_dir=FIGURES_DIR, model_name="Logistic_Regression_V15"
     )
+    opt_lr = metrics_lr['optimal_metrics']
     print(f"LR Baseline -> Val ROC-AUC: {metrics_lr['roc_auc']:.4f} | PR-AUC: {metrics_lr['pr_auc']:.4f}")
+    print(f"  -> Optimal Threshold: {metrics_lr['optimal_threshold']:.4f} | F1: {opt_lr['f1_score']:.4f} | Precision: {opt_lr['precision']:.4f} | Recall: {opt_lr['recall']:.4f}")
+    print(f"  -> Confusion Matrix: TP={opt_lr['tp']}, FP={opt_lr['fp']}, FN={opt_lr['fn']}, TN={opt_lr['tn']}")
     results_list.append({
         'Model': 'Logistic Regression (Baseline)',
         'Feature_Space': 'V15 Numerical Only',
         'Loss_Function': 'Weighted Cross-Entropy',
         'ROC_AUC': round(metrics_lr['roc_auc'], 4),
         'PR_AUC': round(metrics_lr['pr_auc'], 4),
-        'F1_Score': round(metrics_lr['optimal_metrics']['f1_score'], 4),
+        'F1_Score': round(opt_lr['f1_score'], 4),
+        'Precision': round(opt_lr['precision'], 4),
+        'Recall': round(opt_lr['recall'], 4),
+        'TP': opt_lr['tp'],
+        'FP': opt_lr['fp'],
+        'FN': opt_lr['fn'],
+        'TN': opt_lr['tn'],
         'Optimal_Threshold': round(metrics_lr['optimal_threshold'], 4)
     })
 
@@ -121,8 +137,8 @@ def run_all_benchmarks():
         val_loader=val_loader_v15,
         criterion=criterion_bce,
         optimizer=optimizer_bce,
-        max_epochs=8,
-        patience=3,
+        max_epochs=5,
+        patience=2,
         device=device,
         save_path=SAVED_MODELS_DIR / "nn_bce_v15.pt"
     )
@@ -131,14 +147,23 @@ def run_all_benchmarks():
     metrics_bce = evaluate_predictions(
         y_val, val_probs_bce, save_dir=FIGURES_DIR, model_name="Deep_Entity_NN_BCE_V15"
     )
+    opt_bce = metrics_bce['optimal_metrics']
     print(f"Deep NN (BCE) -> Val ROC-AUC: {metrics_bce['roc_auc']:.4f} | PR-AUC: {metrics_bce['pr_auc']:.4f}")
+    print(f"  -> Optimal Threshold: {metrics_bce['optimal_threshold']:.4f} | F1: {opt_bce['f1_score']:.4f} | Precision: {opt_bce['precision']:.4f} | Recall: {opt_bce['recall']:.4f}")
+    print(f"  -> Confusion Matrix: TP={opt_bce['tp']}, FP={opt_bce['fp']}, FN={opt_bce['fn']}, TN={opt_bce['tn']}")
     results_list.append({
         'Model': 'Tabular Entity-Embedding NN',
         'Feature_Space': '49 Cats + V15',
         'Loss_Function': 'Weighted BCE',
         'ROC_AUC': round(metrics_bce['roc_auc'], 4),
         'PR_AUC': round(metrics_bce['pr_auc'], 4),
-        'F1_Score': round(metrics_bce['optimal_metrics']['f1_score'], 4),
+        'F1_Score': round(opt_bce['f1_score'], 4),
+        'Precision': round(opt_bce['precision'], 4),
+        'Recall': round(opt_bce['recall'], 4),
+        'TP': opt_bce['tp'],
+        'FP': opt_bce['fp'],
+        'FN': opt_bce['fn'],
+        'TN': opt_bce['tn'],
         'Optimal_Threshold': round(metrics_bce['optimal_threshold'], 4)
     })
 
@@ -166,8 +191,8 @@ def run_all_benchmarks():
         val_loader=val_loader_v15,
         criterion=criterion_focal,
         optimizer=optimizer_focal,
-        max_epochs=8,
-        patience=3,
+        max_epochs=5,
+        patience=2,
         device=device,
         save_path=SAVED_MODELS_DIR / "nn_focal_v15.pt"
     )
@@ -176,14 +201,23 @@ def run_all_benchmarks():
     metrics_focal_v15 = evaluate_predictions(
         y_val, val_probs_focal_v15, save_dir=FIGURES_DIR, model_name="Deep_Entity_NN_Focal_V15"
     )
+    opt_f15 = metrics_focal_v15['optimal_metrics']
     print(f"Deep NN (Focal V15) -> Val ROC-AUC: {metrics_focal_v15['roc_auc']:.4f} | PR-AUC: {metrics_focal_v15['pr_auc']:.4f}")
+    print(f"  -> Optimal Threshold: {metrics_focal_v15['optimal_threshold']:.4f} | F1: {opt_f15['f1_score']:.4f} | Precision: {opt_f15['precision']:.4f} | Recall: {opt_f15['recall']:.4f}")
+    print(f"  -> Confusion Matrix: TP={opt_f15['tp']}, FP={opt_f15['fp']}, FN={opt_f15['fn']}, TN={opt_f15['tn']}")
     results_list.append({
         'Model': 'Tabular Entity-Embedding NN',
         'Feature_Space': '49 Cats + V15',
         'Loss_Function': f'Focal Loss (a={FOCAL_ALPHA}, g={FOCAL_GAMMA})',
         'ROC_AUC': round(metrics_focal_v15['roc_auc'], 4),
         'PR_AUC': round(metrics_focal_v15['pr_auc'], 4),
-        'F1_Score': round(metrics_focal_v15['optimal_metrics']['f1_score'], 4),
+        'F1_Score': round(opt_f15['f1_score'], 4),
+        'Precision': round(opt_f15['precision'], 4),
+        'Recall': round(opt_f15['recall'], 4),
+        'TP': opt_f15['tp'],
+        'FP': opt_f15['fp'],
+        'FN': opt_f15['fn'],
+        'TN': opt_f15['tn'],
         'Optimal_Threshold': round(metrics_focal_v15['optimal_threshold'], 4)
     })
 
@@ -213,8 +247,8 @@ def run_all_benchmarks():
         val_loader=val_loader_vpca,
         criterion=criterion_focal,
         optimizer=optimizer_focal_vpca,
-        max_epochs=8,
-        patience=3,
+        max_epochs=5,
+        patience=2,
         device=device,
         save_path=SAVED_MODELS_DIR / "nn_focal_vpca.pt"
     )
@@ -223,14 +257,23 @@ def run_all_benchmarks():
     metrics_focal_vpca = evaluate_predictions(
         y_val, val_probs_focal_vpca, save_dir=FIGURES_DIR, model_name="Deep_Entity_NN_Focal_VPCA"
     )
+    opt_fpca = metrics_focal_vpca['optimal_metrics']
     print(f"Deep NN (Focal VPCA) -> Val ROC-AUC: {metrics_focal_vpca['roc_auc']:.4f} | PR-AUC: {metrics_focal_vpca['pr_auc']:.4f}")
+    print(f"  -> Optimal Threshold: {metrics_focal_vpca['optimal_threshold']:.4f} | F1: {opt_fpca['f1_score']:.4f} | Precision: {opt_fpca['precision']:.4f} | Recall: {opt_fpca['recall']:.4f}")
+    print(f"  -> Confusion Matrix: TP={opt_fpca['tp']}, FP={opt_fpca['fp']}, FN={opt_fpca['fn']}, TN={opt_fpca['tn']}")
     results_list.append({
         'Model': 'Tabular Entity-Embedding NN',
         'Feature_Space': '49 Cats + Orthogonal VPCA',
         'Loss_Function': f'Focal Loss (a={FOCAL_ALPHA}, g={FOCAL_GAMMA})',
         'ROC_AUC': round(metrics_focal_vpca['roc_auc'], 4),
         'PR_AUC': round(metrics_focal_vpca['pr_auc'], 4),
-        'F1_Score': round(metrics_focal_vpca['optimal_metrics']['f1_score'], 4),
+        'F1_Score': round(opt_fpca['f1_score'], 4),
+        'Precision': round(opt_fpca['precision'], 4),
+        'Recall': round(opt_fpca['recall'], 4),
+        'TP': opt_fpca['tp'],
+        'FP': opt_fpca['fp'],
+        'FN': opt_fpca['fn'],
+        'TN': opt_fpca['tn'],
         'Optimal_Threshold': round(metrics_focal_vpca['optimal_threshold'], 4)
     })
 

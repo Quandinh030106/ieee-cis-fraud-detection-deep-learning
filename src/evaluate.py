@@ -1,7 +1,18 @@
-import json
+import sys
+import os
 from pathlib import Path
+
+# Ensure unbuffered output and writable matplotlib cache
+sys.stdout.reconfigure(line_buffering=True)
+mpl_dir = Path(__file__).resolve().parent.parent / "outputs" / ".matplotlib"
+mpl_dir.mkdir(parents=True, exist_ok=True)
+os.environ["MPLCONFIGDIR"] = str(mpl_dir)
+
+import json
 from typing import Dict, Any, Tuple, Optional
 import numpy as np
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from sklearn.metrics import (
     roc_auc_score,

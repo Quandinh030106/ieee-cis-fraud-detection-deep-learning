@@ -1,0 +1,25 @@
+{
+  "model_name": "Deep_Entity_NN_Focal_V15",
+  "roc_auc": 0.8832382084345297,
+  "pr_auc": 0.47445075015397176,
+  "default_threshold": 0.5,
+  "default_metrics": {
+    "precision": 0.811214953271028,
+    "recall": 0.25529411764705884,
+    "f1_score": 0.3883668903803132,
+    "tp": 1302,
+    "fp": 303,
+    "fn": 3798,
+    "tn": 142232
+  },
+  "optimal_threshold": 0.3063611686229706,
+  "optimal_metrics": {
+    "precision": 0.5102724430549352,
+    "recall": 0.44803921568627453,
+    "f1_score": 0.4771351012737524,
+    "tp": 2285,
+    "fp": 2193,
+    "fn": 2815,
+    "tn": 140342
+  }
+}

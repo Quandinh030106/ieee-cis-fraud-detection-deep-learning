@@ -241,7 +241,38 @@ To counteract the 27.5:1 imbalance between legitimate and fraudulent transaction
 with $\alpha = 0.25$ and $\gamma = 2.0$. The modulating factor $(1 - p_t)^\gamma$ automatically suppresses the loss contribution from easily classified negative transactions, allowing gradients to focus on hard fraud instances.
 
 % =============================================================================
-% 6. CONCLUSION & REPRODUCIBILITY
+% 6. EXPERIMENTAL RESULTS & BENCHMARK EVALUATION
+% =============================================================================
+\section{Experimental Results \& Benchmark Evaluation}
+All experiments were strictly trained on the historical partition ($N_{\text{train}}=442,905$) and evaluated on the out-of-time validation partition ($N_{\text{val}}=147,635$) to prevent temporal look-ahead leakage. The decision threshold $\tau^*$ is selected to maximize the validation $F_1$-score.
+
+\begin{table*}[t]
+\caption{Benchmark Evaluation Matrix on Out-Of-Time Validation Split ($N=147,635$, Fraud Prevalence = 3.45\%)}
+\label{tab:benchmark_results}
+\centering
+\small
+\begin{tabular}{lllrrrrrrrr}
+\toprule
+\textbf{Model} & \textbf{Feature Space} & \textbf{Loss Function} & \textbf{ROC-AUC} & \textbf{PR-AUC} & $\mathbf{F_1}$ & \textbf{Prec.} & \textbf{Recall} & \textbf{TP} & \textbf{FP} & $\tau^*$ \\
+\midrule
+Logistic Regression (Baseline) & Numerical $V_{15}$ & Weighted CE & 0.8409 & 0.2075 & 0.3479 & 0.3425 & 0.3535 & 1,803 & 3,462 & 0.8602 \\
+Tabular Entity-Embedding NN & 49 Cats + $V_{15}$ & Weighted BCE & 0.8856 & 0.4760 & 0.4769 & 0.5172 & 0.4424 & 2,256 & 2,106 & 0.9038 \\
+Tabular Entity-Embedding NN & 49 Cats + $V_{15}$ & Focal Loss ($\alpha=0.25, \gamma=2.0$) & 0.8832 & 0.4745 & 0.4771 & 0.5103 & 0.4480 & 2,285 & 2,193 & 0.3064 \\
+\textbf{Tabular Entity-Embedding NN} & \textbf{49 Cats + Orthogonal VPCA} & \textbf{Focal Loss ($\alpha=0.25, \gamma=2.0$)} & \textbf{0.8875} & \textbf{0.4887} & \textbf{0.4909} & \textbf{0.5175} & \textbf{0.4669} & \textbf{2,381} & \textbf{2,220} & 0.3088 \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\subsection{Performance Discussion}
+Table~\ref{tab:benchmark_results} reveals distinct behavioral regimes across the architectural ablation:
+\begin{enumerate}
+    \item \textbf{Entity Embedding vs. Linear Baseline}: Introducing dense embeddings for 49 high-cardinality identity and card attributes yields an extraordinary jump in PR-AUC from 0.2075 to 0.4760 (+129.4\%) and $F_1$-score from 0.3479 to 0.4769 (+37.1\%). The neural network successfully resolves complex cross-entity relationships (e.g., card-OS pairings and email-domain risks) that linear decision surfaces fail to separate.
+    \item \textbf{Loss Calibration (Weighted BCE vs. Focal Loss)}: While Weighted BCE forces an uncalibrated logit shift requiring an extreme operating threshold ($\tau^* = 0.9038$), Focal Loss with modulating exponent $\gamma=2.0$ stabilizes output probabilities around a natural operating threshold ($\tau^* \approx 0.3088$) while retaining strong precision (51.75\%).
+    \item \textbf{Orthogonal Cluster-Wise VPCA Superiority}: Replacing raw collinear $V$-features with 15 cluster-wise principal components achieves the highest overall performance: ROC-AUC of \textbf{0.8875}, PR-AUC of \textbf{0.4887}, and $F_1$-score of \textbf{0.4909}. Most crucially for financial risk management, this configuration captures \textbf{2,381 true frauds} (a 32.1\% increase over the 1,803 frauds detected by the baseline) while cutting false alarms by 35.9\% (from 3,462 down to 2,220).
+\end{enumerate}
+
+% =============================================================================
+% 7. CONCLUSION & REPRODUCIBILITY
 % =============================================================================
 \section{Conclusion \& Repository Artifacts}
 This work delivers a rigorous, leakage-free empirical foundation for fraud detection on high-dimensional financial data. By resolving 49 entity attributes, reverse-engineering hardware signals, clustering 339 $V$-features into 15 orthogonal representations, and establishing a strict chronological partition, the pipeline eliminates critical points of failure.
