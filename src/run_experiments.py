@@ -131,14 +131,20 @@ def run_all_benchmarks():
     criterion_bce = nn.BCEWithLogitsLoss(pos_weight=pos_weight)
     optimizer_bce = torch.optim.AdamW(model_bce.parameters(), lr=1e-3, weight_decay=1e-4)
 
+    #add scheduler
+    scheduler_bce = torch.optim.lr_scheduler.ReduceLROnPlateau(
+    optimizer_bce, mode='min', factor=0.5, patience=3
+)
+
     trained_bce = train_model(
         model=model_bce,
         train_loader=train_loader_v15,
         val_loader=val_loader_v15,
         criterion=criterion_bce,
         optimizer=optimizer_bce,
-        max_epochs=5,
-        patience=2,
+        scheduler=scheduler_bce,
+        max_epochs=50,
+        patience=7,     #Change number of epochs and patience to see if the accuracy improves
         device=device,
         save_path=SAVED_MODELS_DIR / "nn_bce_v15.pt"
     )
@@ -184,6 +190,11 @@ def run_all_benchmarks():
 
     criterion_focal = BinaryFocalLoss(alpha=FOCAL_ALPHA, gamma=FOCAL_GAMMA)
     optimizer_focal = torch.optim.AdamW(model_focal_v15.parameters(), lr=1e-3, weight_decay=1e-4)
+    
+    #add scheduler
+    scheduler_focal = torch.optim.lr_scheduler.ReduceLROnPlateau(
+    optimizer_focal, mode='min', factor=0.5, patience=3
+)
 
     trained_focal_v15 = train_model(
         model=model_focal_v15,
@@ -191,8 +202,9 @@ def run_all_benchmarks():
         val_loader=val_loader_v15,
         criterion=criterion_focal,
         optimizer=optimizer_focal,
-        max_epochs=5,
-        patience=2,
+        scheduler=scheduler_focal,
+        max_epochs=50,
+        patience=7,
         device=device,
         save_path=SAVED_MODELS_DIR / "nn_focal_v15.pt"
     )
@@ -241,14 +253,21 @@ def run_all_benchmarks():
 
     optimizer_focal_vpca = torch.optim.AdamW(model_focal_vpca.parameters(), lr=1e-3, weight_decay=1e-4)
 
+     #add scheduler
+    scheduler_focal_vpca = torch.optim.lr_scheduler.ReduceLROnPlateau(
+    optimizer_focal_vpca, mode='min', factor=0.5, patience=3
+)
+
+
     trained_focal_vpca = train_model(
         model=model_focal_vpca,
         train_loader=train_loader_vpca,
         val_loader=val_loader_vpca,
         criterion=criterion_focal,
         optimizer=optimizer_focal_vpca,
-        max_epochs=5,
-        patience=2,
+        scheduler=scheduler_focal_vpca,
+        max_epochs=50,
+        patience=7,
         device=device,
         save_path=SAVED_MODELS_DIR / "nn_focal_vpca.pt"
     )
